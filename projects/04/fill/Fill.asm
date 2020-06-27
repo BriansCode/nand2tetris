@@ -11,4 +11,36 @@
 // "white" in every pixel;
 // the screen should remain fully clear as long as no key is pressed.
 
-// Put your code here.
+(START)
+    @SCREEN
+    D=A
+    @i
+    M=D  // reset index to screen address
+    
+    @color
+    M=0
+    @KBD
+    D=M
+    @FILL
+    D;JEQ  // keep color as white if no key pressed
+    @color
+    M=-1  // set color to black since key is pressed
+
+(FILL)
+    @i
+    D=M 
+    @KBD
+    D=D-A
+    @START
+    D;JEQ  // if past the last index then FILL loop is done, goto START
+
+    @color
+    D=M
+    @i
+    A=M
+    M=D  // set the pixels to the specified color
+    @i
+    M=M+1
+
+    @FILL
+    0;JMP  // continue looping
